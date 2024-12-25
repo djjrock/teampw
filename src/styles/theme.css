@@ -3,8 +3,18 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --theme-transition-duration: 200ms;
+  }
+
+  .theme-transition,
   .theme-transition * {
     @apply transition-colors duration-200 ease-in-out;
+  }
+
+  /* Prevent transition on page load */
+  .no-transitions * {
+    transition: none !important;
   }
 }
 

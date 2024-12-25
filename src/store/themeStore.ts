@@ -42,17 +42,22 @@ const applyTheme = (theme: 'light' | 'dark') => {
 export const useThemeStore = create<ThemeState>((
   set: StoreApi<ThemeState>['setState'],
   get: StoreApi<ThemeState>['getState']
-) => ({
-  theme: getInitialTheme(),
-  isDark: getInitialTheme() === 'dark',
-  setTheme: (theme: 'light' | 'dark') => {
-    applyTheme(theme);
-    set({ theme, isDark: theme === 'dark' });
-  },
-  toggleTheme: () => {
-    const state = get();
-    const newTheme = state.theme === 'light' ? 'dark' : 'light';
-    applyTheme(newTheme);
-    set({ theme: newTheme, isDark: newTheme === 'dark' });
-  },
-}));
+) => {
+  const initialTheme = getInitialTheme();
+  applyTheme(initialTheme); // Apply theme immediately on store creation
+  
+  return {
+    theme: initialTheme,
+    isDark: initialTheme === 'dark',
+    setTheme: (theme: 'light' | 'dark') => {
+      applyTheme(theme);
+      set({ theme, isDark: theme === 'dark' });
+    },
+    toggleTheme: () => {
+      const state = get();
+      const newTheme = state.theme === 'light' ? 'dark' : 'light';
+      applyTheme(newTheme);
+      set({ theme: newTheme, isDark: newTheme === 'dark' });
+    },
+  };
+});

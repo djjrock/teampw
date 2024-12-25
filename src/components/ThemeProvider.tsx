@@ -10,23 +10,24 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
 
   // Initialize theme on mount
   React.useEffect(() => {
-    // Apply initial theme
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    // Add transition class immediately
+    document.documentElement.classList.add('theme-transition');
 
-    // Add transition after initial theme is set
-    const timeout = setTimeout(() => {
-      document.documentElement.classList.add('theme-transition');
-    }, 0);
-
-    return () => {
-      clearTimeout(timeout);
-      document.documentElement.classList.remove('theme-transition');
+    // Listen for system theme changes
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (e: MediaQueryListEvent) => {
+      // Only update if there's no saved theme preference
+      if (!localStorage.getItem('theme')) {
+        setTheme(e.matches ? 'dark' : 'light');
+      }
     };
-  }, []);
+
+    mediaQuery.addEventListener('change', handleChange);
+    return () => {
+      document.documentElement.classList.remove('theme-transition');
+      mediaQuery.removeEventListener('change', handleChange);
+    };
+  }, [setTheme]);
 
   // Handle theme changes
   React.useEffect(() => {
@@ -36,18 +37,6 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
       document.documentElement.classList.remove('dark');
     }
   }, [theme]);
-
-  // Listen for system theme changes
-  React.useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    const handleChange = (e: MediaQueryListEvent) => {
-      setTheme(e.matches ? 'dark' : 'light');
-    };
-
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, [setTheme]);
 
   return <>{children}</>;
 }
