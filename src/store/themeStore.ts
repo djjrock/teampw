@@ -15,49 +15,46 @@ let inMemoryTheme: Theme | null = null;
 // DOM manipulation helpers with error handling
 const setDocumentTheme = (theme: Theme) => {
   try {
+    // Remove existing theme classes
     document.documentElement.classList.remove('light', 'dark');
     document.documentElement.classList.add(theme);
+    
+    // Set data attributes
     document.documentElement.setAttribute('data-theme', theme);
     document.documentElement.setAttribute('data-color-scheme', theme);
     
-    // Set colors directly for maximum compatibility
+    // Set colors directly
     const isDark = theme === 'dark';
+    document.documentElement.style.setProperty('--theme-bg', isDark ? '#18181B' : '#ffffff');
+    document.documentElement.style.setProperty('--theme-text', isDark ? '#ffffff' : '#18181B');
     document.documentElement.style.backgroundColor = isDark ? '#18181B' : '#ffffff';
     document.documentElement.style.color = isDark ? '#ffffff' : '#18181B';
+    
+    // Force a repaint
+    const body = document.body;
+    body.style.display = 'none';
+    body.offsetHeight; // Trigger reflow
+    body.style.display = '';
   } catch (error) {
     console.error('Failed to set document theme:', error);
   }
 };
 
-// Storage wrapper with error handling
-const storage = {
-  get: (key: string): string | null => {
-    try {
-      return localStorage.getItem(key);
-    } catch (error) {
-      console.warn('Failed to access localStorage:', error);
-      return null;
-    }
-  },
-  set: (key: string, value: string): void => {
-    try {
-      localStorage.setItem(key, value);
-    } catch (error) {
-      console.warn('Failed to write to localStorage:', error);
-    }
-  }
-};
-
+// Try to get theme from various sources
 const getInitialTheme = (): Theme => {
   // Check in-memory theme first
   if (inMemoryTheme) {
     return inMemoryTheme;
   }
 
-  // Try localStorage
-  const storedTheme = storage.get('theme') as Theme | null;
-  if (storedTheme && (storedTheme === 'light' || storedTheme === 'dark')) {
-    return storedTheme;
+  // Try localStorage if available
+  try {
+    const stored = localStorage.getItem('theme');
+    if (stored === 'dark' || stored === 'light') {
+      return stored;
+    }
+  } catch (error) {
+    // Ignore localStorage errors
   }
 
   // Check system preference
@@ -66,41 +63,50 @@ const getInitialTheme = (): Theme => {
       return 'dark';
     }
   } catch (error) {
-    console.warn('Failed to check system theme preference:', error);
+    // Ignore media query errors
   }
 
   // Check DOM for existing theme
-  try {
-    if (document.documentElement.classList.contains('dark')) {
-      return 'dark';
-    }
-  } catch (error) {
-    console.warn('Failed to check DOM theme:', error);
+  if (document.documentElement.classList.contains('dark')) {
+    return 'dark';
   }
 
   // Default to light theme
   return 'light';
 };
 
-export const useThemeStore = create<ThemeStore>((set, get) => ({
-  theme: getInitialTheme(),
-  isDark: getInitialTheme() === 'dark',
-  setTheme: (newTheme: Theme) => {
-    // Update in-memory theme
-    inMemoryTheme = newTheme;
-    
-    // Update localStorage if available
-    storage.set('theme', newTheme);
-    
-    // Apply theme to document
-    setDocumentTheme(newTheme);
-    
-    // Update store state
-    set({ theme: newTheme, isDark: newTheme === 'dark' });
-  },
-  toggleTheme: () => {
-    const currentTheme = get().theme;
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    get().setTheme(newTheme);
-  },
-}));
+// Create the store
+export const useThemeStore = create<ThemeStore>((set, get) => {
+  // Get initial theme
+  const initialTheme = getInitialTheme();
+  
+  // Apply initial theme immediately
+  setDocumentTheme(initialTheme);
+  
+  return {
+    theme: initialTheme,
+    isDark: initialTheme === 'dark',
+    setTheme: (newTheme: Theme) => {
+      // Update in-memory theme
+      inMemoryTheme = newTheme;
+      
+      // Try to persist to localStorage
+      try {
+        localStorage.setItem('theme', newTheme);
+      } catch (error) {
+        // Ignore localStorage errors
+      }
+      
+      // Apply theme to document
+      setDocumentTheme(newTheme);
+      
+      // Update store state
+      set({ theme: newTheme, isDark: newTheme === 'dark' });
+    },
+    toggleTheme: () => {
+      const currentTheme = get().theme;
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      get().setTheme(newTheme);
+    },
+  };
+});

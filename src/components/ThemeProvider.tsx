@@ -11,10 +11,15 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     document.documentElement.style.setProperty('transition', 'none');
     
     // Force immediate theme application
+    const isDark = theme === 'dark';
     document.documentElement.classList.remove('light', 'dark');
     document.documentElement.classList.add(theme);
     document.documentElement.setAttribute('data-theme', theme);
     document.documentElement.setAttribute('data-color-scheme', theme);
+    document.documentElement.style.setProperty('--theme-bg', isDark ? '#18181B' : '#ffffff');
+    document.documentElement.style.setProperty('--theme-text', isDark ? '#ffffff' : '#18181B');
+    document.documentElement.style.backgroundColor = isDark ? '#18181B' : '#ffffff';
+    document.documentElement.style.color = isDark ? '#ffffff' : '#18181B';
     
     // Re-enable transitions after a short delay
     const timeoutId = setTimeout(() => {
@@ -23,24 +28,20 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }, 100);
 
     return () => clearTimeout(timeoutId);
-  }, []);
-
-  // Watch for theme changes
-  useEffect(() => {
-    if (mounted) {
-      document.documentElement.classList.remove('light', 'dark');
-      document.documentElement.classList.add(theme);
-      document.documentElement.setAttribute('data-theme', theme);
-      document.documentElement.setAttribute('data-color-scheme', theme);
-    }
-  }, [theme, mounted]);
+  }, [theme]);
 
   // Watch for system theme changes
   useEffect(() => {
     try {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       const handleChange = (e: MediaQueryListEvent) => {
-        if (!localStorage.getItem('theme')) {
+        try {
+          const hasStoredTheme = localStorage.getItem('theme');
+          if (!hasStoredTheme) {
+            setTheme(e.matches ? 'dark' : 'light');
+          }
+        } catch (error) {
+          // Ignore localStorage errors
           setTheme(e.matches ? 'dark' : 'light');
         }
       };
