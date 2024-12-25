@@ -61,3 +61,82 @@
     @apply bg-gray-300 dark:bg-gray-600;
   }
 }
+
+/* Base theme variables */
+:root {
+  --theme-bg: #ffffff;
+  --theme-text: #18181B;
+  color-scheme: light;
+  background-color: var(--theme-bg);
+  color: var(--theme-text);
+}
+
+/* Dark theme variables */
+:root[data-theme="dark"] {
+  --theme-bg: #18181B;
+  --theme-text: #ffffff;
+  color-scheme: dark;
+  background-color: var(--theme-bg);
+  color: var(--theme-text);
+}
+
+/* Disable transitions initially */
+.no-transitions * {
+  transition: none !important;
+}
+
+/* Enable smooth transitions */
+.theme-transition {
+  transition: background-color 0.2s ease-in-out,
+              color 0.2s ease-in-out,
+              border-color 0.2s ease-in-out,
+              outline-color 0.2s ease-in-out,
+              fill 0.2s ease-in-out,
+              stroke 0.2s ease-in-out,
+              opacity 0.2s ease-in-out;
+}
+
+/* Force immediate theme application */
+[data-theme="light"] {
+  background-color: #ffffff !important;
+  color: #18181B !important;
+}
+
+[data-theme="dark"] {
+  background-color: #18181B !important;
+  color: #ffffff !important;
+}
+
+/* Ensure theme colors are applied to specific elements */
+[data-theme="light"] .theme-aware-bg {
+  background-color: #ffffff !important;
+}
+
+[data-theme="dark"] .theme-aware-bg {
+  background-color: #18181B !important;
+}
+
+[data-theme="light"] .theme-aware-text {
+  color: #18181B !important;
+}
+
+[data-theme="dark"] .theme-aware-text {
+  color: #ffffff !important;
+}
+
+/* Force theme application on specific components */
+.theme-applied [data-theme="light"] {
+  background-color: #ffffff !important;
+  color: #18181B !important;
+}
+
+.theme-applied [data-theme="dark"] {
+  background-color: #18181B !important;
+  color: #ffffff !important;
+}
+
+/* Ensure theme colors are applied even in iframes */
+:root[data-theme] {
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
