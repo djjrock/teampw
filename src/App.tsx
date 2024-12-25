@@ -14,32 +14,35 @@ import { TeamDetails } from './components/teams/TeamDetails';
 import { BillingDetails } from './components/settings/BillingDetails';
 import { KitchenSink } from './components/kitchen-sink/KitchenSink';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { ThemeProvider } from './components/ThemeProvider';
 
 export function App() {
   return (
-    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-      <Routes>
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/onboarding" element={<OnboardingFlow />} />
-        <Route path="/" element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        }>
-          <Route index element={<PasswordList />} />
-          <Route path="passwords" element={<PasswordList />} />
-          <Route path="passwords/:id" element={<PasswordDetails />} />
-          <Route path="teams" element={<TeamManagement />} />
-          <Route path="teams/:id" element={<TeamDetails />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="settings/profile" element={<ProfileSettings />} />
-          <Route path="settings/security" element={<SecuritySettings />} />
-          <Route path="settings/notifications" element={<NotificationSettings />} />
-          <Route path="settings/billing" element={<BillingDetails />} />
-          <Route path="settings/kitchen-sink" element={<KitchenSink />} />
-        </Route>
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </Router>
+    <ThemeProvider>
+      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <Routes>
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/onboarding" element={<OnboardingFlow />} />
+          <Route path="/" element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }>
+            <Route index element={<PasswordList />} />
+            <Route path="passwords" element={<PasswordList />} />
+            <Route path="passwords/:id" element={<PasswordDetails />} />
+            <Route path="teams" element={<TeamManagement />} />
+            <Route path="teams/:id" element={<TeamDetails />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="settings/profile" element={<ProfileSettings />} />
+            <Route path="settings/security" element={<SecuritySettings />} />
+            <Route path="settings/notifications" element={<NotificationSettings />} />
+            <Route path="settings/billing" element={<BillingDetails />} />
+            <Route path="settings/kitchen-sink" element={<KitchenSink />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }
