@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
-import { X, Building2, BarChart, Calendar, RefreshCw, FileSpreadsheet, Check } from 'lucide-react';
+import { Building2, BarChart, Calendar, RefreshCw, FileSpreadsheet, Check } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { Modal } from '../ui/Modal';
 
 type Step = 'type' | 'metrics' | 'projections' | 'integrations' | 'review';
 
@@ -50,7 +50,7 @@ export const ModelCreationModal: React.FC<ModelCreationModalProps> = ({ isOpen, 
         return (
           <div className="space-y-4">
             <h3 className="text-lg font-medium text-gray-900 dark:text-white">Select Model Type</h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {modelTypes.map((type) => (
                 <button
                   key={type.id}
@@ -75,7 +75,7 @@ export const ModelCreationModal: React.FC<ModelCreationModalProps> = ({ isOpen, 
           <div className="space-y-4">
             <h3 className="text-lg font-medium text-gray-900 dark:text-white">Select Key Metrics</h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">Choose the metrics you want to track in your model</p>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {metrics[selectedType as keyof typeof metrics]?.map((metric) => (
                 <button
                   key={metric}
@@ -219,62 +219,49 @@ export const ModelCreationModal: React.FC<ModelCreationModalProps> = ({ isOpen, 
     }
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <Card className={cn(
-        "w-full max-w-2xl",
-        "bg-white dark:bg-[#27272A] border-gray-200 dark:border-transparent"
-      )}>
-        <div className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-800">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Create New Model</h2>
-          <button 
-            onClick={onClose}
-            className={cn(
-              "p-2 rounded-lg transition-colors",
-              "hover:bg-gray-100 dark:hover:bg-[#323232]"
-            )}
-          >
-            <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-          </button>
-        </div>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Create New Model"
+      maxWidth="2xl"
+    >
+      <div>
+        {/* Progress Steps */}
+        <div className="flex justify-between mb-8 overflow-x-auto pb-4 -mx-4 px-4 sm:pb-0 sm:mx-0 sm:px-0">
+          {steps.map((step, idx) => {
+            const StepIcon = step.icon;
+            const isActive = currentStep === step.id;
+            const isPast = steps.findIndex(s => s.id === currentStep) > idx;
 
-        <div className="p-6">
-          <div className="flex justify-between mb-8">
-            {steps.map((step, idx) => {
-              const StepIcon = step.icon;
-              const isActive = currentStep === step.id;
-              const isPast = steps.findIndex(s => s.id === currentStep) > idx;
-
-              return (
-                <div key={step.id} className="flex flex-col items-center">
-                  <div className={cn(
-                    "w-10 h-10 rounded-full flex items-center justify-center mb-2",
-                    isActive ? "bg-[#18181B] dark:bg-[#E5FFCA] text-white dark:text-[#18181B]" : 
-                    isPast ? "bg-[#E5FFCA] text-[#18181B]" : 
-                    "bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500"
-                  )}>
-                    <StepIcon className="w-5 h-5" />
-                  </div>
-                  <span className={cn(
-                    "text-sm",
-                    isActive ? "text-gray-900 dark:text-white font-medium" : "text-gray-500 dark:text-gray-400"
-                  )}>
-                    {step.name}
-                  </span>
+            return (
+              <div key={step.id} className="flex flex-col items-center flex-shrink-0">
+                <div className={cn(
+                  "w-10 h-10 rounded-full flex items-center justify-center mb-2",
+                  isActive ? "bg-[#18181B] dark:bg-[#E5FFCA] text-white dark:text-[#18181B]" : 
+                  isPast ? "bg-[#E5FFCA] text-[#18181B]" : 
+                  "bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500"
+                )}>
+                  <StepIcon className="w-5 h-5" />
                 </div>
-              );
-            })}
-          </div>
-
-          {renderStepContent()}
+                <span className={cn(
+                  "text-sm whitespace-nowrap",
+                  isActive ? "text-gray-900 dark:text-white font-medium" : "text-gray-500 dark:text-gray-400"
+                )}>
+                  {step.name}
+                </span>
+              </div>
+            );
+          })}
         </div>
 
+        {/* Step Content */}
+        {renderStepContent()}
+
+        {/* Footer */}
         <div className={cn(
-          "flex justify-between items-center p-4 border-t rounded-b-xl",
-          "border-gray-100 dark:border-gray-800",
-          "bg-gray-50 dark:bg-[#18181B]"
+          "flex justify-between items-center mt-8 pt-4 border-t",
+          "border-gray-100 dark:border-gray-800"
         )}>
           <button
             onClick={onClose}
@@ -307,7 +294,7 @@ export const ModelCreationModal: React.FC<ModelCreationModalProps> = ({ isOpen, 
             </Button>
           </div>
         </div>
-      </Card>
-    </div>
+      </div>
+    </Modal>
   );
 };
