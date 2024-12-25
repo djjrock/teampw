@@ -10,28 +10,37 @@ interface ThemeState {
   toggleTheme: () => void;
 }
 
-// Safe localStorage wrapper with fallback
+// In-memory theme storage fallback
+let inMemoryTheme: 'light' | 'dark' | null = null;
+
+// Storage wrapper that falls back to memory storage
 const storage = {
   get: (key: string): string | null => {
+    if (key === 'theme' && inMemoryTheme) {
+      return inMemoryTheme;
+    }
     try {
       return localStorage.getItem(key);
     } catch (error) {
-      console.warn('Failed to read from localStorage:', error);
+      console.warn('Storage not available, using memory storage');
       return null;
     }
   },
   set: (key: string, value: string): void => {
+    if (key === 'theme') {
+      inMemoryTheme = value as 'light' | 'dark';
+    }
     try {
       localStorage.setItem(key, value);
     } catch (error) {
-      console.warn('Failed to write to localStorage:', error);
+      console.warn('Storage not available, using memory storage');
     }
   }
 };
 
 // Get initial theme with fallback strategy
 const getInitialTheme = (): 'light' | 'dark' => {
-  // Try local storage first
+  // Try storage first
   const savedTheme = storage.get('theme');
   if (savedTheme === 'light' || savedTheme === 'dark') {
     return savedTheme;
@@ -43,7 +52,7 @@ const getInitialTheme = (): 'light' | 'dark' => {
       return 'dark';
     }
   } catch (error) {
-    console.warn('Failed to detect system theme:', error);
+    console.warn('System theme detection not available');
   }
 
   // Default to light theme
@@ -53,11 +62,23 @@ const getInitialTheme = (): 'light' | 'dark' => {
 // Apply theme to document with error handling
 const applyTheme = (theme: 'light' | 'dark'): void => {
   try {
-    // Remove both classes first to ensure clean state
-    document.documentElement.classList.remove('light', 'dark');
+    const root = document.documentElement;
+    const isDark = theme === 'dark';
+
+    // Remove both classes first
+    root.classList.remove('light', 'dark');
+    
     // Add the current theme class
-    document.documentElement.classList.add(theme);
-    // Try to persist the theme
+    root.classList.add(theme);
+    
+    // Update CSS variables for immediate effect
+    root.style.setProperty('color-scheme', theme);
+    
+    // Set background and text colors directly
+    root.style.backgroundColor = isDark ? '#18181B' : '#ffffff';
+    root.style.color = isDark ? '#ffffff' : '#18181B';
+
+    // Store the theme
     storage.set('theme', theme);
   } catch (error) {
     console.warn('Failed to apply theme:', error);

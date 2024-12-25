@@ -7,69 +7,58 @@ interface ThemeProviderProps {
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
   const { theme, setTheme } = useThemeStore();
-  const [isInitialized, setIsInitialized] = React.useState(false);
 
   // Initialize theme on mount
   React.useEffect(() => {
-    // Prevent transition flash on initial load
+    // Force initial theme application
     const root = document.documentElement;
+    const isDark = theme === 'dark';
+
+    // Remove transitions temporarily
     root.classList.add('no-transitions');
 
-    // Add transition class after a short delay
+    // Apply theme aggressively
+    root.classList.remove('light', 'dark');
+    root.classList.add(theme);
+    root.style.setProperty('color-scheme', theme);
+    root.style.backgroundColor = isDark ? '#18181B' : '#ffffff';
+    root.style.color = isDark ? '#ffffff' : '#18181B';
+
+    // Re-enable transitions after a short delay
     const timeoutId = setTimeout(() => {
       root.classList.remove('no-transitions');
       root.classList.add('theme-transition');
-      setIsInitialized(true);
     }, 100);
 
-    // Listen for system theme changes
+    // Try to detect system theme changes
     try {
       const mediaQuery = window.matchMedia?.('(prefers-color-scheme: dark)');
       if (mediaQuery) {
         const handleChange = (e: MediaQueryListEvent) => {
-          // Only update if there's no saved theme preference
-          if (!localStorage.getItem('theme')) {
-            setTheme(e.matches ? 'dark' : 'light');
-          }
+          setTheme(e.matches ? 'dark' : 'light');
         };
 
-        // Use the appropriate event listener method
         if (mediaQuery.addEventListener) {
           mediaQuery.addEventListener('change', handleChange);
         } else if (mediaQuery.addListener) {
-          // Fallback for older browsers
           mediaQuery.addListener(handleChange);
         }
 
         return () => {
-          // Clean up event listener
           if (mediaQuery.removeEventListener) {
             mediaQuery.removeEventListener('change', handleChange);
           } else if (mediaQuery.removeListener) {
             mediaQuery.removeListener(handleChange);
           }
-          root.classList.remove('theme-transition', 'no-transitions');
           clearTimeout(timeoutId);
         };
       }
     } catch (error) {
-      console.warn('System theme detection not supported:', error);
+      console.warn('System theme detection not available');
     }
 
-    return () => {
-      root.classList.remove('theme-transition', 'no-transitions');
-      clearTimeout(timeoutId);
-    };
-  }, [setTheme]);
-
-  // Handle theme changes
-  React.useEffect(() => {
-    if (isInitialized) {
-      const root = document.documentElement;
-      root.classList.remove('light', 'dark');
-      root.classList.add(theme);
-    }
-  }, [theme, isInitialized]);
+    return () => clearTimeout(timeoutId);
+  }, [theme, setTheme]);
 
   return <>{children}</>;
 }
