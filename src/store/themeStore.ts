@@ -4,7 +4,9 @@ type Theme = 'light' | 'dark';
 
 interface ThemeStore {
   theme: Theme;
+  isDark: boolean;
   setTheme: (theme: Theme) => void;
+  toggleTheme: () => void;
 }
 
 // In-memory fallback storage
@@ -80,8 +82,9 @@ const getInitialTheme = (): Theme => {
   return 'light';
 };
 
-export const useThemeStore = create<ThemeStore>((set) => ({
+export const useThemeStore = create<ThemeStore>((set, get) => ({
   theme: getInitialTheme(),
+  isDark: getInitialTheme() === 'dark',
   setTheme: (newTheme: Theme) => {
     // Update in-memory theme
     inMemoryTheme = newTheme;
@@ -93,6 +96,11 @@ export const useThemeStore = create<ThemeStore>((set) => ({
     setDocumentTheme(newTheme);
     
     // Update store state
-    set({ theme: newTheme });
+    set({ theme: newTheme, isDark: newTheme === 'dark' });
+  },
+  toggleTheme: () => {
+    const currentTheme = get().theme;
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    get().setTheme(newTheme);
   },
 }));
