@@ -1,3 +1,13 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Production build
+dist
+dist-ssr
+*.local
+
 # Logs
 logs
 *.log
@@ -6,11 +16,6 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
-node_modules
-dist
-dist-ssr
-*.local
 
 # Editor directories and files
 .vscode/*
@@ -21,4 +26,9 @@ dist-ssr
 *.ntvs*
 *.njsproj
 *.sln
-*.sw? 
+*.sw?
+
+# Environment variables
+.env
+.env.*
+!.env.example 
