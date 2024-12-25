@@ -10,10 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.0",
+    "@supabase/supabase-js": "^2.47.10",
+    "clsx": "^2.1.1",
     "lucide-react": "^0.469.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^7.1.1",
+    "tailwind-merge": "^2.6.0",
     "zustand": "^5.0.2"
   },
   "devDependencies": {
