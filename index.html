@@ -8,8 +8,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      // Initial theme based on system preference
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (prefersDark) {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
   </head>
-  <body>
+  <body class="bg-white dark:bg-[#18181B]">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

@@ -4,6 +4,7 @@ import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { Toggle } from '../ui/Toggle';
 import { ChevronLeft, Bell, Mail, Smartphone, Slack } from 'lucide-react';
+import { cn } from '../../lib/utils';
 
 interface NotificationSectionProps {
   title: string;
@@ -26,12 +27,12 @@ const NotificationSection: React.FC<NotificationSectionProps> = ({
 }) => (
   <div className="p-6">
     <div className="flex items-center gap-4 mb-6">
-      <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
-        <Icon className="w-5 h-5 text-gray-600" />
+      <div className="w-10 h-10 bg-gray-100 dark:bg-[#0a0a0a] rounded-lg flex items-center justify-center">
+        <Icon className="w-5 h-5 text-gray-600 dark:text-gray-400" />
       </div>
       <div>
-        <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
-        <p className="text-sm text-gray-500">{description}</p>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{title}</h2>
+        <p className="text-sm text-gray-500 dark:text-gray-400">{description}</p>
       </div>
     </div>
 
@@ -39,8 +40,8 @@ const NotificationSection: React.FC<NotificationSectionProps> = ({
       {options.map((option) => (
         <div key={option.id} className="flex items-start justify-between">
           <div>
-            <h3 className="font-medium text-gray-900">{option.label}</h3>
-            <p className="text-sm text-gray-500">{option.description}</p>
+            <h3 className="font-medium text-gray-900 dark:text-white">{option.label}</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{option.description}</p>
           </div>
           <Toggle checked={option.enabled} onChange={option.onChange} />
         </div>
@@ -69,14 +70,17 @@ export const NotificationSettings: React.FC = () => {
       <div className="flex items-center gap-4 mb-6">
         <button 
           onClick={() => navigate('/settings')}
-          className="p-2 hover:bg-gray-100 rounded-lg"
+          className="p-2 hover:bg-gray-100 dark:hover:bg-[#323232] rounded-lg transition-colors"
         >
-          <ChevronLeft className="w-5 h-5 text-gray-500" />
+          <ChevronLeft className="w-5 h-5 text-gray-500 dark:text-gray-600" />
         </button>
-        <h1 className="text-2xl font-bold text-gray-900">Notification Settings</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Notification Settings</h1>
       </div>
 
-      <Card className="divide-y divide-gray-100">
+      <Card className={cn(
+        "divide-y dark:divide-[#323232]",
+        "bg-white dark:bg-[#27272A] border-gray-200 dark:border-transparent"
+      )}>
         <NotificationSection
           title="In-App Notifications"
           description="Manage your in-app notification preferences"
@@ -180,10 +184,21 @@ export const NotificationSettings: React.FC = () => {
         />
 
         <div className="p-6 flex justify-end gap-3">
-          <Button variant="secondary" onClick={() => navigate('/settings')}>
+          <Button 
+            variant="secondary"
+            onClick={() => navigate('/settings')}
+            className={cn(
+              "bg-white dark:bg-[#27272A] border-gray-200 dark:border-transparent",
+              "hover:bg-gray-50 dark:hover:bg-[#323232] text-gray-900 dark:text-white"
+            )}
+          >
             Cancel
           </Button>
-          <Button>
+          <Button className={cn(
+            "bg-[#18181B] hover:bg-[#27272A]",
+            "dark:bg-[#E5FFCA] dark:hover:bg-[#E5FFCA]/90",
+            "text-white dark:text-[#18181B]"
+          )}>
             Save Changes
           </Button>
         </div>

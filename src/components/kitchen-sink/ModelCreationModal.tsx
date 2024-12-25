@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { X, Building2, BarChart, Calendar, RefreshCw, FileSpreadsheet, Check } from 'lucide-react';
+import { cn } from '../../lib/utils';
 
 type Step = 'type' | 'metrics' | 'projections' | 'integrations' | 'review';
 
@@ -48,20 +49,21 @@ export const ModelCreationModal: React.FC<ModelCreationModalProps> = ({ isOpen, 
       case 'type':
         return (
           <div className="space-y-4">
-            <h3 className="text-lg font-medium text-gray-900">Select Model Type</h3>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white">Select Model Type</h3>
             <div className="grid grid-cols-2 gap-4">
               {modelTypes.map((type) => (
                 <button
                   key={type.id}
                   onClick={() => setSelectedType(type.id)}
-                  className={`p-4 border rounded-xl text-left transition-colors ${
+                  className={cn(
+                    "p-4 border rounded-xl text-left transition-colors",
                     selectedType === type.id 
-                      ? 'border-[#18181B] bg-[#E5FFCA]/10' 
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
+                      ? "border-[#18181B] dark:border-[#E5FFCA] bg-[#E5FFCA]/10" 
+                      : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
+                  )}
                 >
-                  <h4 className="font-medium text-gray-900">{type.name}</h4>
-                  <p className="text-sm text-gray-500 mt-1">{type.description}</p>
+                  <h4 className="font-medium text-gray-900 dark:text-white">{type.name}</h4>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{type.description}</p>
                 </button>
               ))}
             </div>
@@ -71,8 +73,8 @@ export const ModelCreationModal: React.FC<ModelCreationModalProps> = ({ isOpen, 
       case 'metrics':
         return (
           <div className="space-y-4">
-            <h3 className="text-lg font-medium text-gray-900">Select Key Metrics</h3>
-            <p className="text-sm text-gray-500">Choose the metrics you want to track in your model</p>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white">Select Key Metrics</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Choose the metrics you want to track in your model</p>
             <div className="grid grid-cols-2 gap-4">
               {metrics[selectedType as keyof typeof metrics]?.map((metric) => (
                 <button
@@ -84,16 +86,17 @@ export const ModelCreationModal: React.FC<ModelCreationModalProps> = ({ isOpen, 
                         : [...prev, metric]
                     );
                   }}
-                  className={`p-4 border rounded-xl text-left transition-colors ${
+                  className={cn(
+                    "p-4 border rounded-xl text-left transition-colors",
                     selectedMetrics.includes(metric)
-                      ? 'border-[#18181B] bg-[#E5FFCA]/10'
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
+                      ? "border-[#18181B] dark:border-[#E5FFCA] bg-[#E5FFCA]/10"
+                      : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
+                  )}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-medium text-gray-900">{metric}</span>
+                    <span className="font-medium text-gray-900 dark:text-white">{metric}</span>
                     {selectedMetrics.includes(metric) && (
-                      <Check className="w-4 h-4 text-[#18181B]" />
+                      <Check className="w-4 h-4 text-[#18181B] dark:text-[#E5FFCA]" />
                     )}
                   </div>
                 </button>
@@ -105,11 +108,11 @@ export const ModelCreationModal: React.FC<ModelCreationModalProps> = ({ isOpen, 
       case 'projections':
         return (
           <div className="space-y-4">
-            <h3 className="text-lg font-medium text-gray-900">Set Projection Timeline</h3>
-            <p className="text-sm text-gray-500">Define the time period for your financial projections</p>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white">Set Projection Timeline</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Define the time period for your financial projections</p>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                   Projection Years
                 </label>
                 <input
@@ -118,9 +121,9 @@ export const ModelCreationModal: React.FC<ModelCreationModalProps> = ({ isOpen, 
                   max="10"
                   value={projectionYears}
                   onChange={(e) => setProjectionYears(Number(e.target.value))}
-                  className="w-full accent-[#18181B]"
+                  className="w-full accent-[#18181B] dark:accent-[#E5FFCA]"
                 />
-                <div className="flex justify-between text-sm text-gray-500 mt-1">
+                <div className="flex justify-between text-sm text-gray-500 dark:text-gray-400 mt-1">
                   <span>1 year</span>
                   <span>{projectionYears} years</span>
                   <span>10 years</span>
@@ -133,8 +136,8 @@ export const ModelCreationModal: React.FC<ModelCreationModalProps> = ({ isOpen, 
       case 'integrations':
         return (
           <div className="space-y-4">
-            <h3 className="text-lg font-medium text-gray-900">Connect Data Sources</h3>
-            <p className="text-sm text-gray-500">Integrate with your existing tools for real-time data</p>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white">Connect Data Sources</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Integrate with your existing tools for real-time data</p>
             <div className="space-y-3">
               {[
                 { id: 'quickbooks', name: 'QuickBooks', connected: true },
@@ -151,21 +154,22 @@ export const ModelCreationModal: React.FC<ModelCreationModalProps> = ({ isOpen, 
                         : [...prev, integration.id]
                     );
                   }}
-                  className={`w-full p-4 border rounded-xl text-left transition-colors ${
+                  className={cn(
+                    "w-full p-4 border rounded-xl text-left transition-colors",
                     integrations.includes(integration.id)
-                      ? 'border-[#18181B] bg-[#E5FFCA]/10'
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
+                      ? "border-[#18181B] dark:border-[#E5FFCA] bg-[#E5FFCA]/10"
+                      : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
+                  )}
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="font-medium text-gray-900">{integration.name}</h4>
-                      <p className="text-sm text-gray-500">
+                      <h4 className="font-medium text-gray-900 dark:text-white">{integration.name}</h4>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
                         {integration.connected ? 'Connected' : 'Not connected'}
                       </p>
                     </div>
                     {integrations.includes(integration.id) && (
-                      <Check className="w-4 h-4 text-[#18181B]" />
+                      <Check className="w-4 h-4 text-[#18181B] dark:text-[#E5FFCA]" />
                     )}
                   </div>
                 </button>
@@ -177,33 +181,33 @@ export const ModelCreationModal: React.FC<ModelCreationModalProps> = ({ isOpen, 
       case 'review':
         return (
           <div className="space-y-4">
-            <h3 className="text-lg font-medium text-gray-900">Review Model Configuration</h3>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white">Review Model Configuration</h3>
             <div className="space-y-4">
               <div className="bg-[#E5FFCA]/10 rounded-xl p-4">
-                <h4 className="text-sm font-medium text-gray-900 mb-2">Model Type</h4>
-                <p className="text-sm text-gray-600">
+                <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">Model Type</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-300">
                   {modelTypes.find(t => t.id === selectedType)?.name}
                 </p>
               </div>
               <div className="bg-[#E5FFCA]/10 rounded-xl p-4">
-                <h4 className="text-sm font-medium text-gray-900 mb-2">Selected Metrics</h4>
+                <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">Selected Metrics</h4>
                 <div className="flex flex-wrap gap-2">
                   {selectedMetrics.map(metric => (
-                    <span key={metric} className="px-2 py-1 bg-white rounded-lg text-sm text-gray-600 border border-gray-200">
+                    <span key={metric} className="px-2 py-1 bg-white dark:bg-[#18181B] rounded-lg text-sm text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">
                       {metric}
                     </span>
                   ))}
                 </div>
               </div>
               <div className="bg-[#E5FFCA]/10 rounded-xl p-4">
-                <h4 className="text-sm font-medium text-gray-900 mb-2">Projection Timeline</h4>
-                <p className="text-sm text-gray-600">{projectionYears} years</p>
+                <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">Projection Timeline</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-300">{projectionYears} years</p>
               </div>
               <div className="bg-[#E5FFCA]/10 rounded-xl p-4">
-                <h4 className="text-sm font-medium text-gray-900 mb-2">Connected Integrations</h4>
+                <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">Connected Integrations</h4>
                 <div className="flex flex-wrap gap-2">
                   {integrations.map(integration => (
-                    <span key={integration} className="px-2 py-1 bg-white rounded-lg text-sm text-gray-600 border border-gray-200">
+                    <span key={integration} className="px-2 py-1 bg-white dark:bg-[#18181B] rounded-lg text-sm text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">
                       {integration}
                     </span>
                   ))}
@@ -218,15 +222,21 @@ export const ModelCreationModal: React.FC<ModelCreationModalProps> = ({ isOpen, 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-2xl">
-        <div className="flex items-center justify-between p-4 border-b border-gray-100">
-          <h2 className="text-xl font-semibold text-gray-900">Create New Model</h2>
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <Card className={cn(
+        "w-full max-w-2xl",
+        "bg-white dark:bg-[#27272A] border-gray-200 dark:border-transparent"
+      )}>
+        <div className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-800">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Create New Model</h2>
           <button 
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            className={cn(
+              "p-2 rounded-lg transition-colors",
+              "hover:bg-gray-100 dark:hover:bg-[#323232]"
+            )}
           >
-            <X className="w-5 h-5 text-gray-500" />
+            <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
           </button>
         </div>
 
@@ -239,14 +249,18 @@ export const ModelCreationModal: React.FC<ModelCreationModalProps> = ({ isOpen, 
 
               return (
                 <div key={step.id} className="flex flex-col items-center">
-                  <div className={`
-                    w-10 h-10 rounded-full flex items-center justify-center mb-2
-                    ${isActive ? 'bg-[#18181B] text-white' : 
-                      isPast ? 'bg-[#E5FFCA] text-[#18181B]' : 'bg-gray-100 text-gray-400'}
-                  `}>
+                  <div className={cn(
+                    "w-10 h-10 rounded-full flex items-center justify-center mb-2",
+                    isActive ? "bg-[#18181B] dark:bg-[#E5FFCA] text-white dark:text-[#18181B]" : 
+                    isPast ? "bg-[#E5FFCA] text-[#18181B]" : 
+                    "bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500"
+                  )}>
                     <StepIcon className="w-5 h-5" />
                   </div>
-                  <span className={`text-sm ${isActive ? 'text-gray-900 font-medium' : 'text-gray-500'}`}>
+                  <span className={cn(
+                    "text-sm",
+                    isActive ? "text-gray-900 dark:text-white font-medium" : "text-gray-500 dark:text-gray-400"
+                  )}>
                     {step.name}
                   </span>
                 </div>
@@ -257,10 +271,14 @@ export const ModelCreationModal: React.FC<ModelCreationModalProps> = ({ isOpen, 
           {renderStepContent()}
         </div>
 
-        <div className="flex justify-between items-center p-4 border-t border-gray-100 bg-gray-50 rounded-b-xl">
+        <div className={cn(
+          "flex justify-between items-center p-4 border-t rounded-b-xl",
+          "border-gray-100 dark:border-gray-800",
+          "bg-gray-50 dark:bg-[#18181B]"
+        )}>
           <button
             onClick={onClose}
-            className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900"
+            className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
           >
             Cancel
           </button>
@@ -269,6 +287,7 @@ export const ModelCreationModal: React.FC<ModelCreationModalProps> = ({ isOpen, 
               <Button
                 variant="secondary"
                 onClick={() => setCurrentStep(steps[steps.findIndex(s => s.id === currentStep) - 1].id as Step)}
+                className="bg-white dark:bg-[#27272A] text-gray-900 dark:text-white"
               >
                 Back
               </Button>
@@ -282,6 +301,7 @@ export const ModelCreationModal: React.FC<ModelCreationModalProps> = ({ isOpen, 
                   onClose();
                 }
               }}
+              className="bg-[#18181B] hover:bg-[#27272A] dark:bg-[#E5FFCA] dark:hover:bg-[#E5FFCA]/90 text-white dark:text-[#18181B]"
             >
               {currentStep === 'review' ? 'Create Model' : 'Continue'}
             </Button>

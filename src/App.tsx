@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { LoginForm } from './components/auth/LoginForm';
 import { OnboardingFlow } from './components/onboarding/OnboardingFlow';
@@ -15,9 +15,9 @@ import { BillingDetails } from './components/settings/BillingDetails';
 import { KitchenSink } from './components/kitchen-sink/KitchenSink';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 
-const App: React.FC = () => {
+export function App() {
   return (
-    <Router>
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Routes>
         <Route path="/login" element={<LoginForm />} />
         <Route path="/onboarding" element={<OnboardingFlow />} />
@@ -42,6 +42,4 @@ const App: React.FC = () => {
       </Routes>
     </Router>
   );
-};
-
-export default App;
+}

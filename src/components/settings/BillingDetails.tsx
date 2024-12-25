@@ -8,6 +8,7 @@ import {
   AlertCircle, Wallet, ChevronLeft
 } from 'lucide-react';
 import { AddPaymentModal } from './AddPaymentModal';
+import { cn } from '../../lib/utils';
 
 interface PaymentMethod {
   id: string;
@@ -69,67 +70,94 @@ export const BillingDetails: React.FC = () => {
       <div className="flex items-center gap-4 mb-6">
         <button 
           onClick={() => navigate('/settings')}
-          className="p-2 hover:bg-gray-100 rounded-lg"
+          className="p-2 hover:bg-gray-100 dark:hover:bg-[#323232] rounded-lg transition-colors"
         >
-          <ChevronLeft className="w-5 h-5 text-gray-500" />
+          <ChevronLeft className="w-5 h-5 text-gray-500 dark:text-gray-600" />
         </button>
-        <h1 className="text-2xl font-bold text-gray-900">Billing & Plans</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Billing & Plans</h1>
       </div>
 
       <div className="grid gap-6">
-        <Card className="p-6">
+        <Card className={cn(
+          "p-6",
+          "bg-white dark:bg-[#27272A] border-gray-200 dark:border-transparent"
+        )}>
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-[#F4F4F5] rounded-full flex items-center justify-center">
-                <Star className="w-5 h-5 text-[#18181B]" />
+              <div className="w-10 h-10 bg-[#F4F4F5] dark:bg-[#0a0a0a] rounded-full flex items-center justify-center">
+                <Star className="w-5 h-5 text-[#18181B] dark:text-gray-400" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-gray-900">Current Plan</h2>
-                <p className="text-sm text-gray-500">Free Plan</p>
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Current Plan</h2>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Free Plan</p>
               </div>
             </div>
-            <Button className="bg-[#18181B] hover:bg-[#27272A] text-white">
+            <Button className={cn(
+              "bg-[#18181B] hover:bg-[#27272A]",
+              "dark:bg-[#E5FFCA] dark:hover:bg-[#E5FFCA]/90",
+              "text-white dark:text-[#18181B]"
+            )}>
               Upgrade Plan
             </Button>
           </div>
 
           <div className="grid grid-cols-3 gap-4">
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <div className="text-sm text-gray-500 mb-1">Team Members</div>
-              <div className="text-2xl font-semibold text-gray-900">3/5</div>
+            <div className={cn(
+              "p-4 rounded-lg",
+              "bg-gray-50 dark:bg-[#0a0a0a]"
+            )}>
+              <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Team Members</div>
+              <div className="text-2xl font-semibold text-gray-900 dark:text-white">3/5</div>
             </div>
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <div className="text-sm text-gray-500 mb-1">Passwords</div>
-              <div className="text-2xl font-semibold text-gray-900">25/50</div>
+            <div className={cn(
+              "p-4 rounded-lg",
+              "bg-gray-50 dark:bg-[#0a0a0a]"
+            )}>
+              <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Passwords</div>
+              <div className="text-2xl font-semibold text-gray-900 dark:text-white">25/50</div>
             </div>
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <div className="text-sm text-gray-500 mb-1">Storage</div>
-              <div className="text-2xl font-semibold text-gray-900">1/5 GB</div>
+            <div className={cn(
+              "p-4 rounded-lg",
+              "bg-gray-50 dark:bg-[#0a0a0a]"
+            )}>
+              <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Storage</div>
+              <div className="text-2xl font-semibold text-gray-900 dark:text-white">1/5 GB</div>
             </div>
           </div>
         </Card>
 
-        <Card className="p-6">
+        <Card className={cn(
+          "p-6",
+          "bg-white dark:bg-[#27272A] border-gray-200 dark:border-transparent"
+        )}>
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-[#F4F4F5] rounded-full flex items-center justify-center">
-                <Wallet className="w-5 h-5 text-[#18181B]" />
+              <div className="w-10 h-10 bg-[#F4F4F5] dark:bg-[#0a0a0a] rounded-full flex items-center justify-center">
+                <Wallet className="w-5 h-5 text-[#18181B] dark:text-gray-400" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-gray-900">Payment Methods</h2>
-                <p className="text-sm text-gray-500">Manage your payment methods</p>
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Payment Methods</h2>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Manage your payment methods</p>
               </div>
             </div>
             <div className="flex gap-2">
               <Button 
                 variant="secondary"
                 onClick={() => setShowAddPaymentModal('ach')}
+                className={cn(
+                  "bg-white dark:bg-[#27272A] border-gray-200 dark:border-transparent",
+                  "hover:bg-gray-50 dark:hover:bg-[#323232] text-gray-900 dark:text-white"
+                )}
               >
                 <Building className="w-4 h-4 mr-2" />
                 Add Bank Account
               </Button>
               <Button 
-                className="bg-[#18181B] hover:bg-[#27272A] text-white"
+                className={cn(
+                  "bg-[#18181B] hover:bg-[#27272A]",
+                  "dark:bg-[#E5FFCA] dark:hover:bg-[#E5FFCA]/90",
+                  "text-white dark:text-[#18181B]"
+                )}
                 onClick={() => setShowAddPaymentModal('card')}
               >
                 <Plus className="w-4 h-4 mr-2" />
@@ -142,23 +170,26 @@ export const BillingDetails: React.FC = () => {
             {mockPaymentMethods.map((method) => (
               <div 
                 key={method.id}
-                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+                className={cn(
+                  "flex items-center justify-between p-4 rounded-lg",
+                  "bg-gray-50 dark:bg-[#0a0a0a]"
+                )}
               >
                 <div className="flex items-center gap-3">
                   {method.type === 'card' ? (
-                    <CreditCard className="w-5 h-5 text-gray-500" />
+                    <CreditCard className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                   ) : (
-                    <Building className="w-5 h-5 text-gray-500" />
+                    <Building className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                   )}
                   <div>
-                    <div className="font-medium text-gray-900">
+                    <div className="font-medium text-gray-900 dark:text-white">
                       {method.type === 'card' ? (
                         <>Card ending in {method.last4}</>
                       ) : (
                         <>{method.bankName} ending in {method.last4}</>
                       )}
                     </div>
-                    <div className="text-sm text-gray-500">
+                    <div className="text-sm text-gray-500 dark:text-gray-400">
                       {method.type === 'card' ? (
                         <>Expires {method.expiryDate}</>
                       ) : (
@@ -173,7 +204,7 @@ export const BillingDetails: React.FC = () => {
                       Default
                     </span>
                   )}
-                  <button className="text-gray-400 hover:text-gray-600">
+                  <button className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
                     <ArrowRight className="w-5 h-5" />
                   </button>
                 </div>
@@ -182,80 +213,64 @@ export const BillingDetails: React.FC = () => {
           </div>
         </Card>
 
-        <Card className="p-6">
+        <Card className={cn(
+          "p-6",
+          "bg-white dark:bg-[#27272A] border-gray-200 dark:border-transparent"
+        )}>
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-[#F4F4F5] rounded-full flex items-center justify-center">
-                <Receipt className="w-5 h-5 text-[#18181B]" />
+              <div className="w-10 h-10 bg-[#F4F4F5] dark:bg-[#0a0a0a] rounded-full flex items-center justify-center">
+                <Receipt className="w-5 h-5 text-[#18181B] dark:text-gray-400" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-gray-900">Billing History</h2>
-                <p className="text-sm text-gray-500">View and download past invoices</p>
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Billing History</h2>
+                <p className="text-sm text-gray-500 dark:text-gray-400">View and download past invoices</p>
               </div>
             </div>
-            <Button variant="secondary">
-              <Download className="w-4 h-4 mr-2" />
-              Export All
-            </Button>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Invoice</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Date</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Amount</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Status</th>
-                  <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">Download</th>
-                </tr>
-              </thead>
-              <tbody>
-                {mockInvoices.map((invoice) => (
-                  <tr key={invoice.id} className="border-b border-gray-100">
-                    <td className="py-3 px-4">
-                      <span className="text-sm font-medium text-gray-900">{invoice.id}</span>
-                    </td>
-                    <td className="py-3 px-4">
-                      <span className="text-sm text-gray-500">
-                        {new Date(invoice.date).toLocaleDateString()}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4">
-                      <span className="text-sm text-gray-900">
-                        ${invoice.amount.toFixed(2)}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4">
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                        invoice.status === 'paid'
-                          ? 'bg-[#E5FFCA] text-[#18181B]'
-                          : invoice.status === 'pending'
-                          ? 'bg-yellow-100 text-yellow-800'
-                          : 'bg-red-100 text-red-800'
-                      }`}>
-                        {invoice.status.charAt(0).toUpperCase() + invoice.status.slice(1)}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4 text-right">
-                      <button className="text-gray-400 hover:text-gray-600">
-                        <Download className="w-4 h-4" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="space-y-4">
+            {mockInvoices.map((invoice) => (
+              <div 
+                key={invoice.id}
+                className={cn(
+                  "flex items-center justify-between p-4 rounded-lg",
+                  "bg-gray-50 dark:bg-[#0a0a0a]"
+                )}
+              >
+                <div className="flex items-center gap-3">
+                  <FileText className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                  <div>
+                    <div className="font-medium text-gray-900 dark:text-white">
+                      Invoice #{invoice.id}
+                    </div>
+                    <div className="text-sm text-gray-500 dark:text-gray-400">
+                      {new Date(invoice.date).toLocaleDateString()} · ${invoice.amount}
+                    </div>
+                  </div>
+                </div>
+                <Button 
+                  variant="ghost" 
+                  className={cn(
+                    "text-gray-600 dark:text-gray-400",
+                    "hover:bg-gray-100 dark:hover:bg-[#323232]"
+                  )}
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Download
+                </Button>
+              </div>
+            ))}
           </div>
         </Card>
-      </div>
 
-      {showAddPaymentModal && (
-        <AddPaymentModal
-          type={showAddPaymentModal}
-          onClose={() => setShowAddPaymentModal(null)}
-        />
-      )}
+        {showAddPaymentModal && (
+          <AddPaymentModal
+            type={showAddPaymentModal}
+            onClose={() => setShowAddPaymentModal(null)}
+          />
+        )}
+      </div>
     </div>
   );
 };

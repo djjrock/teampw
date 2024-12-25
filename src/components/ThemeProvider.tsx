@@ -1,13 +1,32 @@
-import React, { useEffect } from 'react';
+import * as React from 'react';
 import { useThemeStore } from '../store/themeStore';
-import '../styles/theme.css';
 
-export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const theme = useThemeStore((state) => state.theme);
+interface ThemeProviderProps {
+  children: React.ReactNode;
+}
 
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
+export function ThemeProvider({ children }: ThemeProviderProps) {
+  const { theme } = useThemeStore();
+
+  // Apply theme class
+  React.useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
   }, [theme]);
 
+  // Listen for system theme changes
+  React.useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (e: MediaQueryListEvent) => {
+      useThemeStore.getState().setTheme(e.matches ? 'dark' : 'light');
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
   return <>{children}</>;
-};
+}

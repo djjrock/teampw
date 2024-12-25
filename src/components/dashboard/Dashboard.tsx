@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { TopBar } from './TopBar';
+import { cn } from '../../lib/utils';
 
 export const Dashboard: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0a0a0a]">
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div 
@@ -16,11 +17,12 @@ export const Dashboard: React.FC = () => {
         />
       )}
 
-      {/* Sidebar */}
-      <div className={`
-        fixed inset-y-0 left-0 z-50 transform transition-transform duration-300 lg:translate-x-0
-        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-      `}>
+      {/* Sidebar - Hidden on mobile, visible on desktop */}
+      <div className={cn(
+        "fixed inset-y-0 left-0 z-50 transform transition-transform duration-300",
+        "lg:translate-x-0",
+        sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+      )}>
         <Sidebar onClose={() => setSidebarOpen(false)} />
       </div>
 

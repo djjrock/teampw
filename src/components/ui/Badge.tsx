@@ -8,9 +8,18 @@ interface BadgeProps {
 
 export const Badge: React.FC<BadgeProps> = ({ type, className }) => {
   const variants = {
-    FREE: 'bg-badge-free dark:bg-badge-free-dark text-gray-500',
-    PRO: 'bg-badge-pro dark:bg-badge-pro-dark text-gray-700',
-    TEAM: 'bg-badge-team dark:bg-badge-team-dark text-indigo-700',
+    FREE: cn(
+      'bg-gray-100 text-gray-600',
+      'dark:bg-[#0a0a0a] dark:text-gray-400'
+    ),
+    PRO: cn(
+      'bg-[#E5FFCA] text-[#18181B]',
+      'dark:bg-[#E5FFCA] dark:text-[#18181B]'
+    ),
+    TEAM: cn(
+      'bg-[#E5FFCA] text-[#18181B]',
+      'dark:bg-[#E5FFCA] dark:text-[#18181B]'
+    ),
   };
 
   return (

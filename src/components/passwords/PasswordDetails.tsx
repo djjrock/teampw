@@ -114,22 +114,22 @@ export const PasswordDetails: React.FC = () => {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-4xl">
-        <div className="flex items-center justify-between p-4 border-b border-gray-100">
+      <Card className="w-full max-w-4xl bg-white dark:bg-[#27272A]">
+        <div className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-800">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
-              <Key className="w-5 h-5 text-gray-800" />
+            <div className="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+              <Key className="w-5 h-5 text-gray-800 dark:text-gray-200" />
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-gray-900">{mockPassword.name}</h2>
-              <p className="text-sm text-gray-500">{mockPassword.category}</p>
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{mockPassword.name}</h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{mockPassword.category}</p>
             </div>
           </div>
           <button
             onClick={handleClose}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
           >
-            <X className="w-5 h-5 text-gray-500" />
+            <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
           </button>
         </div>
 
@@ -137,13 +137,13 @@ export const PasswordDetails: React.FC = () => {
           <div className="col-span-2 space-y-6">
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Username / Email</label>
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-200">Username / Email</label>
                 <div className="flex gap-2">
                   <input
                     type="text"
                     value={mockPassword.username}
                     readOnly
-                    className="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-600"
+                    className="flex-1 px-3 py-2 bg-gray-50 dark:bg-[#18181B] border border-gray-200 dark:border-gray-700 rounded-lg text-gray-600 dark:text-gray-200"
                   />
                   <Button
                     variant="secondary"
@@ -155,23 +155,23 @@ export const PasswordDetails: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Password</label>
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-200">Password</label>
                 <div className="flex gap-2">
                   <div className="flex-1 relative">
                     <input
                       type={showPassword ? 'text' : 'password'}
                       value={mockPassword.password}
                       readOnly
-                      className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-600"
+                      className="w-full px-3 py-2 bg-gray-50 dark:bg-[#18181B] border border-gray-200 dark:border-gray-700 rounded-lg text-gray-600 dark:text-gray-200"
                     />
                     <button
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-3 top-1/2 -translate-y-1/2"
                     >
                       {showPassword ? (
-                        <EyeOff className="w-4 h-4 text-gray-400" />
+                        <EyeOff className="w-4 h-4 text-gray-400 dark:text-gray-500" />
                       ) : (
-                        <Eye className="w-4 h-4 text-gray-400" />
+                        <Eye className="w-4 h-4 text-gray-400 dark:text-gray-500" />
                       )}
                     </button>
                   </div>
@@ -189,15 +189,15 @@ export const PasswordDetails: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Website URL</label>
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-200">Website URL</label>
                 <div className="flex gap-2">
                   <div className="flex-1 relative">
-                    <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500" />
                     <input
                       type="url"
                       value={mockPassword.url}
                       readOnly
-                      className="w-full pl-10 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-600"
+                      className="w-full pl-10 pr-3 py-2 bg-gray-50 dark:bg-[#18181B] border border-gray-200 dark:border-gray-700 rounded-lg text-gray-600 dark:text-gray-200"
                     />
                   </div>
                   <Button
@@ -210,34 +210,34 @@ export const PasswordDetails: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Notes</label>
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-200">Notes</label>
                 <textarea
                   value={mockPassword.notes}
                   readOnly
                   rows={3}
-                  className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-600 resize-none"
+                  className="w-full px-3 py-2 bg-gray-50 dark:bg-[#18181B] border border-gray-200 dark:border-gray-700 rounded-lg text-gray-600 dark:text-gray-200 resize-none"
                 />
               </div>
             </div>
           </div>
 
           <div className="space-y-4">
-            <div className="bg-gray-50 p-4 rounded-lg space-y-3">
+            <div className="bg-gray-50 dark:bg-[#18181B] p-4 rounded-lg space-y-3">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-500">Created by</span>
-                <span className="font-medium text-gray-900">{mockPassword.createdBy}</span>
+                <span className="text-gray-500 dark:text-gray-400">Created by</span>
+                <span className="font-medium text-gray-900 dark:text-white">{mockPassword.createdBy}</span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-500">Created at</span>
-                <span className="font-medium text-gray-900">{mockPassword.createdAt}</span>
+                <span className="text-gray-500 dark:text-gray-400">Created at</span>
+                <span className="font-medium text-gray-900 dark:text-white">{mockPassword.createdAt}</span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-500">Last modified</span>
-                <span className="font-medium text-gray-900">{mockPassword.lastModified}</span>
+                <span className="text-gray-500 dark:text-gray-400">Last modified</span>
+                <span className="font-medium text-gray-900 dark:text-white">{mockPassword.lastModified}</span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-500">Strength</span>
-                <span className="px-2 py-0.5 bg-lime-100 text-gray-800 rounded-full text-xs font-medium">
+                <span className="text-gray-500 dark:text-gray-400">Strength</span>
+                <span className="px-2 py-0.5 bg-[#E5FFCA] text-[#18181B] rounded-full text-xs font-medium">
                   {mockPassword.strength}
                 </span>
               </div>
@@ -250,39 +250,26 @@ export const PasswordDetails: React.FC = () => {
           </div>
         </div>
 
-        <div className="border-t border-gray-100">
-          <div className="p-4">
-            <h3 className="text-lg font-semibold text-gray-900">Activity Log</h3>
-          </div>
-          <div className="max-h-64 overflow-y-auto px-4 pb-4">
-            <div className="space-y-4">
-              {mockLogs.map((log) => (
-                <div key={log.id} className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <User className="w-4 h-4 text-gray-600" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium text-gray-900">{log.user.name}</span>
-                      <ActionIcon action={log.action} />
-                      <span className="text-gray-500">
-                        {log.action === 'created' ? 'created this password' : 
-                         log.action === 'edited' ? 'modified this password' :
-                         log.action === 'copied' ? 'copied this password' :
-                         log.action === 'shared' ? 'shared this password' :
-                         'viewed this password'}
-                      </span>
-                    </div>
-                    {log.details && (
-                      <p className="text-sm text-gray-500 mt-0.5">{log.details}</p>
-                    )}
-                    <span className="text-xs text-gray-400 mt-1 block">
-                      {log.timestamp}
-                    </span>
-                  </div>
+        <div className="border-t border-gray-100 dark:border-gray-800 p-6">
+          <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Activity Log</h3>
+          <div className="space-y-4">
+            {mockLogs.map((log) => (
+              <div key={log.id} className="flex items-start gap-3">
+                <div className="mt-1">
+                  <ActionIcon action={log.action} />
                 </div>
-              ))}
-            </div>
+                <div className="flex-1">
+                  <p className="text-sm text-gray-900 dark:text-white">
+                    <span className="font-medium">{log.user.name}</span>
+                    {' '}{log.action} this password
+                  </p>
+                  {log.details && (
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{log.details}</p>
+                  )}
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{log.timestamp}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </Card>

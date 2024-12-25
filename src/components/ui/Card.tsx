@@ -1,22 +1,19 @@
 import React from 'react';
 import { cn } from '../../lib/utils';
 
-interface CardProps {
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
-  className?: string;
-  onClick?: () => void;
 }
 
-export const Card: React.FC<CardProps> = ({ children, className = '', onClick }) => {
+export const Card: React.FC<CardProps> = ({ children, className, ...props }) => {
   return (
-    <div 
+    <div
       className={cn(
-        'bg-white rounded-xl border border-gray-100',
-        'shadow-sm hover:shadow-md transition-shadow duration-200',
-        onClick && 'cursor-pointer',
+        "rounded-xl border shadow-sm transition-colors",
+        "bg-white dark:bg-[#27272A] border-gray-200 dark:border-transparent",
         className
       )}
-      onClick={onClick}
+      {...props}
     >
       {children}
     </div>
