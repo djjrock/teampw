@@ -2,8 +2,10 @@ import './App.css'
 
 function App() {
   return (
-    <div>
-      <h1>Team PW Manager</h1>
+    <div className="min-h-screen bg-white dark:bg-gray-900">
+      <h1 className="text-2xl font-bold text-center py-8">
+        Team Password Manager
+      </h1>
     </div>
   )
 }

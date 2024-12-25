@@ -205,7 +205,7 @@ We welcome contributions! Here's how you can help:
 
 ## License
 
-MIT © Jordan Metzner @ Ryz Labs
+MIT © Jordan Metzner @ Ryz Labs 
 
 ## Acknowledgments
 
