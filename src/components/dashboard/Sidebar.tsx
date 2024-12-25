@@ -27,7 +27,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
   const { unreadCount, setShowFlyout } = useNotificationStore();
   const { signOut } = useAuthStore();
   const navigate = useNavigate();
-  const { isDark, toggleTheme } = useThemeStore();
+  const { theme, toggleTheme } = useThemeStore();
+  const isDark = theme === 'dark';
 
   const handleLogout = async () => {
     try {

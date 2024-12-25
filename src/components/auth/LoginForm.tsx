@@ -12,7 +12,8 @@ export function LoginForm() {
   const [isSent, setIsSent] = useState(false);
   const navigate = useNavigate();
   const signIn = useAuthStore((state) => state.signIn);
-  const { isDark, toggleTheme } = useThemeStore();
+  const { theme, toggleTheme } = useThemeStore();
+  const isDark = theme === 'dark';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
