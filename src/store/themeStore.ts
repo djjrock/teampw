@@ -1,6 +1,7 @@
 import { create, StateCreator } from 'zustand';
 import { StoreApi } from 'zustand';
 
+// Theme store with persistence and system preference detection
 interface ThemeState {
   theme: 'light' | 'dark';
   isDark: boolean;
@@ -24,7 +25,7 @@ const getInitialTheme = (): 'light' | 'dark' => {
   return 'light';
 };
 
-// Apply theme to document immediately
+// Apply theme to document immediately with error handling
 const applyTheme = (theme: 'light' | 'dark') => {
   try {
     if (theme === 'dark') {
