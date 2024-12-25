@@ -1,3 +1,3 @@
 // Export common components
-export * from './NotificationFlyout';
-export * from './ProtectedRoute';
+export * from '../notifications/NotificationFlyout';
+export * from '../auth/ProtectedRoute';

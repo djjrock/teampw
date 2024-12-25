@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { LoginForm } from './components/auth/LoginForm';
 import { OnboardingFlow } from './components/onboarding/OnboardingFlow';
@@ -19,7 +18,7 @@ import { ThemeProvider } from './components/ThemeProvider';
 export function App() {
   return (
     <ThemeProvider>
-      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <Router>
         <Routes>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/onboarding" element={<OnboardingFlow />} />
