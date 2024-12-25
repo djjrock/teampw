@@ -2,6 +2,7 @@ import { create, StateCreator } from 'zustand';
 import { StoreApi } from 'zustand';
 
 // Theme store with persistence and system preference detection
+// Handles theme toggling, persistence, and system preference syncing
 interface ThemeState {
   theme: 'light' | 'dark';
   isDark: boolean;
