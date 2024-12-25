@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    include: ['@headlessui/react', 'clsx', 'tailwind-merge'],
+    include: ['@headlessui/react', 'clsx', 'tailwind-merge', 'react-dropzone'],
     exclude: ['lucide-react']
   },
   resolve: {
