@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  Eye, EyeOff, Copy, Link, Shield,
-  Key, Globe, CheckCircle2, LucideIcon,
-  ArrowRight
+  Eye, 
+  EyeOff, 
+  Copy, 
+  Link, 
+  Shield,
+  Key, 
+  Globe, 
+  CheckCircle2, 
+  ArrowRight,
+  X,
+  type LucideIcon
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { Button } from '../ui/Button';
