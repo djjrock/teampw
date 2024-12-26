@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Card } from '../ui/Card';
-import { Button } from '../ui/Button';
+import { useNavigate } from 'react-router-dom';
 import { 
-  Eye, EyeOff, Copy, Link, Shield, X,
-  Calendar, RefreshCw, History, ArrowRight, Key, Globe,
-  CheckCircle2, AlertCircle, LucideIcon
+  Eye, EyeOff, Copy, Link, Shield,
+  Key, Globe, CheckCircle2, LucideIcon,
+  ArrowRight
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { Button } from '../ui/Button';
+import { Card } from '../ui/Card';
 
 interface AccessLog {
   id: string;
@@ -44,7 +44,7 @@ const ActionIcon: React.FC<ActionIconProps> = ({ action }) => {
     created: Shield,
     viewed: Eye,
     copied: Copy,
-    edited: RefreshCw,
+    edited: Shield,
     shared: Link
   };
 
@@ -57,12 +57,11 @@ const ActionIcon: React.FC<ActionIconProps> = ({ action }) => {
   };
 
   const IconComponent = icons[action];
-  return <IconComponent className={`w-4 h-4 ${colors[action]}`} />;
+  return <IconComponent className={cn('w-4 h-4', colors[action])} />;
 };
 
 export const PasswordDetails: React.FC = () => {
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
   const [showPassword, setShowPassword] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -132,37 +131,43 @@ export const PasswordDetails: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-4xl bg-white dark:bg-[#27272A]">
-        <div className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-800">
+    <div className={cn("fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4")}>
+      <Card className={cn("w-full max-w-4xl bg-white dark:bg-[#27272A]")}>
+        <div className={cn("flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-800")}>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+            <div className={cn("w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center")}>
               <Key className="w-5 h-5 text-gray-800 dark:text-gray-200" />
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{mockPassword.name}</h2>
-              <p className="text-sm text-gray-500 dark:text-gray-400">{mockPassword.category}</p>
+              <h2 className={cn("text-xl font-semibold text-gray-900 dark:text-white")}>{mockPassword.name}</h2>
+              <p className={cn("text-sm text-gray-500 dark:text-gray-400")}>{mockPassword.category}</p>
             </div>
           </div>
           <button
             onClick={handleClose}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+            className={cn(
+              "p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+            )}
           >
-            <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+            <Shield className="w-5 h-5 text-gray-500 dark:text-gray-400" />
           </button>
         </div>
 
-        <div className="p-6 grid grid-cols-3 gap-6">
+        <div className={cn("p-6 grid grid-cols-3 gap-6")}>
           <div className="col-span-2 space-y-6">
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-200">Username / Email</label>
+                <label className={cn("text-sm font-medium text-gray-700 dark:text-gray-200")}>Username / Email</label>
                 <div className="flex gap-2">
                   <input
                     type="text"
                     value={mockPassword.username}
                     readOnly
-                    className="flex-1 px-3 py-2 bg-gray-50 dark:bg-[#18181B] border border-gray-200 dark:border-gray-700 rounded-lg text-gray-600 dark:text-gray-200"
+                    className={cn(
+                      "flex-1 px-3 py-2 bg-gray-50 dark:bg-[#18181B]",
+                      "border border-gray-200 dark:border-gray-700 rounded-lg",
+                      "text-gray-600 dark:text-gray-200"
+                    )}
                   />
                   <Button
                     variant="secondary"
@@ -174,14 +179,18 @@ export const PasswordDetails: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-200">Password</label>
+                <label className={cn("text-sm font-medium text-gray-700 dark:text-gray-200")}>Password</label>
                 <div className="flex gap-2">
                   <div className="flex-1 relative">
                     <input
                       type={showPassword ? 'text' : 'password'}
                       value={mockPassword.password}
                       readOnly
-                      className="w-full px-3 py-2 bg-gray-50 dark:bg-[#18181B] border border-gray-200 dark:border-gray-700 rounded-lg text-gray-600 dark:text-gray-200"
+                      className={cn(
+                        "w-full px-3 py-2 bg-gray-50 dark:bg-[#18181B]",
+                        "border border-gray-200 dark:border-gray-700 rounded-lg",
+                        "text-gray-600 dark:text-gray-200"
+                      )}
                     />
                     <button
                       onClick={() => setShowPassword(!showPassword)}
@@ -208,7 +217,7 @@ export const PasswordDetails: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-200">Website URL</label>
+                <label className={cn("text-sm font-medium text-gray-700 dark:text-gray-200")}>Website URL</label>
                 <div className="flex gap-2">
                   <div className="flex-1 relative">
                     <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500" />
@@ -216,7 +225,11 @@ export const PasswordDetails: React.FC = () => {
                       type="url"
                       value={mockPassword.url}
                       readOnly
-                      className="w-full pl-10 pr-3 py-2 bg-gray-50 dark:bg-[#18181B] border border-gray-200 dark:border-gray-700 rounded-lg text-gray-600 dark:text-gray-200"
+                      className={cn(
+                        "w-full pl-10 pr-3 py-2 bg-gray-50 dark:bg-[#18181B]",
+                        "border border-gray-200 dark:border-gray-700 rounded-lg",
+                        "text-gray-600 dark:text-gray-200"
+                      )}
                     />
                   </div>
                   <Button
@@ -229,48 +242,54 @@ export const PasswordDetails: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-200">Notes</label>
+                <label className={cn("text-sm font-medium text-gray-700 dark:text-gray-200")}>Notes</label>
                 <textarea
                   value={mockPassword.notes}
                   readOnly
                   rows={3}
-                  className="w-full px-3 py-2 bg-gray-50 dark:bg-[#18181B] border border-gray-200 dark:border-gray-700 rounded-lg text-gray-600 dark:text-gray-200 resize-none"
+                  className={cn(
+                    "w-full px-3 py-2 bg-gray-50 dark:bg-[#18181B]",
+                    "border border-gray-200 dark:border-gray-700 rounded-lg",
+                    "text-gray-600 dark:text-gray-200 resize-none"
+                  )}
                 />
               </div>
             </div>
           </div>
 
           <div className="space-y-4">
-            <div className="bg-gray-50 dark:bg-[#18181B] p-4 rounded-lg space-y-3">
+            <div className={cn("bg-gray-50 dark:bg-[#18181B] p-4 rounded-lg space-y-3")}>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-500 dark:text-gray-400">Created by</span>
-                <span className="font-medium text-gray-900 dark:text-white">{mockPassword.createdBy}</span>
+                <span className={cn("text-gray-500 dark:text-gray-400")}>Created by</span>
+                <span className={cn("font-medium text-gray-900 dark:text-white")}>{mockPassword.createdBy}</span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-500 dark:text-gray-400">Created at</span>
-                <span className="font-medium text-gray-900 dark:text-white">{mockPassword.createdAt}</span>
+                <span className={cn("text-gray-500 dark:text-gray-400")}>Created at</span>
+                <span className={cn("font-medium text-gray-900 dark:text-white")}>{mockPassword.createdAt}</span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-500 dark:text-gray-400">Last modified</span>
-                <span className="font-medium text-gray-900 dark:text-white">{mockPassword.lastModified}</span>
+                <span className={cn("text-gray-500 dark:text-gray-400")}>Last modified</span>
+                <span className={cn("font-medium text-gray-900 dark:text-white")}>{mockPassword.lastModified}</span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-500 dark:text-gray-400">Strength</span>
-                <span className="px-2 py-0.5 bg-[#E5FFCA] text-[#18181B] rounded-full text-xs font-medium">
+                <span className={cn("text-gray-500 dark:text-gray-400")}>Strength</span>
+                <span className={cn(
+                  "px-2 py-0.5 bg-[#E5FFCA] text-[#18181B] rounded-full text-xs font-medium"
+                )}>
                   {mockPassword.strength}
                 </span>
               </div>
             </div>
 
             <Button variant="secondary" className="w-full">
-              <History className="w-4 h-4 mr-2" />
+              <Shield className="w-4 h-4 mr-2" />
               View Password History
             </Button>
           </div>
         </div>
 
-        <div className="border-t border-gray-100 dark:border-gray-800 p-6">
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Activity Log</h3>
+        <div className={cn("border-t border-gray-100 dark:border-gray-800 p-6")}>
+          <h3 className={cn("text-lg font-medium text-gray-900 dark:text-white mb-4")}>Activity Log</h3>
           <div className="space-y-4">
             {mockLogs.map((log) => (
               <div key={log.id} className="flex items-start gap-3">
@@ -278,14 +297,14 @@ export const PasswordDetails: React.FC = () => {
                   <ActionIcon action={log.action} />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm text-gray-900 dark:text-white">
+                  <p className={cn("text-sm text-gray-900 dark:text-white")}>
                     <span className="font-medium">{log.user.name}</span>
                     {' '}{log.action} this password
                   </p>
                   {log.details && (
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{log.details}</p>
+                    <p className={cn("text-sm text-gray-500 dark:text-gray-400")}>{log.details}</p>
                   )}
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{log.timestamp}</p>
+                  <p className={cn("text-xs text-gray-500 dark:text-gray-400 mt-1")}>{log.timestamp}</p>
                 </div>
               </div>
             ))}
