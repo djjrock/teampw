@@ -3,10 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { 
-  Eye, EyeOff, Copy, Link, Clock, User, Shield, X,
+  Eye, EyeOff, Copy, Link, Shield, X,
   Calendar, RefreshCw, History, ArrowRight, Key, Globe,
-  CheckCircle2, AlertCircle
+  CheckCircle2, AlertCircle, LucideIcon
 } from 'lucide-react';
+import { cn } from '../../lib/utils';
 
 interface AccessLog {
   id: string;
@@ -20,63 +21,26 @@ interface AccessLog {
   timestamp: string;
 }
 
-const mockPassword = {
-  id: '1',
-  name: 'Company Gmail',
-  username: 'admin@company.com',
-  password: 'super-secure-password-123',
-  url: 'https://gmail.com',
-  category: 'Email',
-  strength: 'Strong',
-  createdBy: 'Jordan Smith',
-  createdAt: '2024-02-15 09:30',
-  lastModified: '2024-03-15 14:30',
-  notes: 'Main company email account for administrative purposes.',
-};
+interface Password {
+  id: string;
+  name: string;
+  username: string;
+  password: string;
+  url: string;
+  category: string;
+  strength: string;
+  createdBy: string;
+  createdAt: string;
+  lastModified: string;
+  notes: string;
+}
 
-const mockLogs: AccessLog[] = [
-  {
-    id: '1',
-    user: {
-      name: 'Alice Johnson',
-      email: 'alice@company.com',
-    },
-    action: 'copied',
-    timestamp: '2024-03-15 16:45'
-  },
-  {
-    id: '2',
-    user: {
-      name: 'Bob Wilson',
-      email: 'bob@company.com',
-    },
-    action: 'edited',
-    details: 'Updated password',
-    timestamp: '2024-03-15 14:30'
-  },
-  {
-    id: '3',
-    user: {
-      name: 'Carol Davis',
-      email: 'carol@company.com',
-    },
-    action: 'shared',
-    details: 'Shared with Marketing Team',
-    timestamp: '2024-03-14 11:20'
-  },
-  {
-    id: '4',
-    user: {
-      name: 'Jordan Smith',
-      email: 'jordan@company.com',
-    },
-    action: 'created',
-    timestamp: '2024-02-15 09:30'
-  }
-];
+interface ActionIconProps {
+  action: AccessLog['action'];
+}
 
-const ActionIcon = ({ action }: { action: string }) => {
-  const icons = {
+const ActionIcon: React.FC<ActionIconProps> = ({ action }) => {
+  const icons: Record<AccessLog['action'], LucideIcon> = {
     created: Shield,
     viewed: Eye,
     copied: Copy,
@@ -84,7 +48,7 @@ const ActionIcon = ({ action }: { action: string }) => {
     shared: Link
   };
 
-  const colors = {
+  const colors: Record<AccessLog['action'], string> = {
     created: 'text-green-500',
     viewed: 'text-blue-500',
     copied: 'text-purple-500',
@@ -92,15 +56,70 @@ const ActionIcon = ({ action }: { action: string }) => {
     shared: 'text-indigo-500'
   };
 
-  const IconComponent = icons[action as keyof typeof icons];
-  return <IconComponent className={`w-4 h-4 ${colors[action as keyof typeof colors]}`} />;
+  const IconComponent = icons[action];
+  return <IconComponent className={`w-4 h-4 ${colors[action]}`} />;
 };
 
 export const PasswordDetails: React.FC = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const [showPassword, setShowPassword] = useState(false);
   const [copied, setCopied] = useState(false);
+
+  const mockPassword: Password = {
+    id: '1',
+    name: 'Company Gmail',
+    username: 'admin@company.com',
+    password: 'super-secure-password-123',
+    url: 'https://gmail.com',
+    category: 'Email',
+    strength: 'Strong',
+    createdBy: 'Jordan Smith',
+    createdAt: '2024-02-15 09:30',
+    lastModified: '2024-03-15 14:30',
+    notes: 'Main company email account for administrative purposes.',
+  };
+
+  const mockLogs: AccessLog[] = [
+    {
+      id: '1',
+      user: {
+        name: 'Alice Johnson',
+        email: 'alice@company.com',
+      },
+      action: 'copied',
+      timestamp: '2024-03-15 16:45'
+    },
+    {
+      id: '2',
+      user: {
+        name: 'Bob Wilson',
+        email: 'bob@company.com',
+      },
+      action: 'edited',
+      details: 'Updated password',
+      timestamp: '2024-03-15 14:30'
+    },
+    {
+      id: '3',
+      user: {
+        name: 'Carol Davis',
+        email: 'carol@company.com',
+      },
+      action: 'shared',
+      details: 'Shared with Marketing Team',
+      timestamp: '2024-03-14 11:20'
+    },
+    {
+      id: '4',
+      user: {
+        name: 'Jordan Smith',
+        email: 'jordan@company.com',
+      },
+      action: 'created',
+      timestamp: '2024-02-15 09:30'
+    }
+  ];
 
   const handleClose = () => {
     navigate(-1);
